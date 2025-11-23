@@ -9,7 +9,7 @@ import (
 )
 
 type Config struct {
-	env        string `yaml:"env" required:"true"`
+	Env        string `yaml:"env" required:"true"`
 	Datasource `yaml:"datasource" required:"true"`
 	HttpServer `yaml:"http_server" required:"true"`
 }
@@ -29,7 +29,7 @@ type HttpServer struct {
 	IdleTimeout time.Duration `yaml:"idle_timeout" default:"30s"`
 }
 
-func MustLoafConfig() *Config {
+func MustLoadConfig() *Config {
 	configPath := os.Getenv("CONFIG_PATH")
 	if configPath == "" {
 		log.Fatal("CONFIG_PATH environment variable not set")

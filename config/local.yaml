@@ -2,8 +2,8 @@ env: dev
 datasource:
   host: localhost:5432
   database: review_service_db
-  username: cassidal
-  password: somepass
+  username: ${DATASOURCE_USERNAME}
+  password: ${DATASOURCE_PASSWORD}
 http_server:
   host: 0.0.0.0
   port: 8080
