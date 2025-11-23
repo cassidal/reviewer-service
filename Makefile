@@ -35,10 +35,7 @@ docker-restart:
 	@docker-compose restart
 
 migrate-up:
-	@docker-compose run --rm migrate -path=/migrations -database="postgres://reviewer:reviewer_password@postgres:5432/reviewer_db?sslmode=disable" up
-
-migrate-down:
-	@docker-compose run --rm migrate -path=/migrations -database="postgres://reviewer:reviewer_password@postgres:5432/reviewer_db?sslmode=disable" down
+	@docker-compose up migrate
 
 migrate-create:
 	@if [ -z "$(NAME)" ]; then \

@@ -9,12 +9,39 @@ services:
       POSTGRES_PASSWORD: reviewer_password
       POSTGRES_DB: reviewer_db
     ports:
-      - "5433:5432"
+      - "0:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U reviewer -d reviewer_db"]
       interval: 5s
       timeout: 5s
       retries: 5
+
+  migrate:
+    image: postgres:16-alpine
+    container_name: reviewer-migrate
+    environment:
+      PGHOST: postgres
+      PGPORT: 5432
+      PGDATABASE: reviewer_db
+      PGUSER: reviewer
+      PGPASSWORD: reviewer_password
+    volumes:
+      - ./migrations:/migrations:ro,Z
+    command: >
+      sh -c "
+        until pg_isready -h postgres -U reviewer -d reviewer_db; do
+          echo 'Waiting for postgres...'
+          sleep 1
+        done &&
+        psql -h postgres -U reviewer -d reviewer_db < /migrations/000_initial_schema.sql &&
+        psql -h postgres -U reviewer -d reviewer_db < /migrations/001_create_pull_requests.sql &&
+        echo 'Migrations applied successfully'
+      "
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   backend:
     build:
@@ -25,8 +52,9 @@ services:
       CONFIG_PATH: /app/config/docker.yaml
     ports:
       - "8080:8080"
-    volumes:
-      - ./config/docker.yaml:/app/config/docker.yaml:ro
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
     restart: unless-stopped
 
 volumes:

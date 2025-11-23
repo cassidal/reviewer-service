@@ -3,8 +3,8 @@ datasource:
   host: localhost
   port: 5432
   database: reviewer_db
-  username: cassidal
-  password: A0me_Itin0se_002_016
+  username: someusername
+  password: somepassword
   timeout: 5s
 http_server:
   host: 0.0.0.0
