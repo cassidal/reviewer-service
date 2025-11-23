@@ -1,0 +1,14 @@
+env: prod
+datasource:
+  host: postgres
+  port: 5432
+  database: reviewer_db
+  username: reviewer
+  password: reviewer_password
+  timeout: 5s
+http_server:
+  host: 0.0.0.0
+  port: 8080
+  timeout: 4s
+  idle_timeout: 30s
+

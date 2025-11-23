@@ -15,16 +15,17 @@ type Config struct {
 }
 
 type Datasource struct {
-	Host     string `yaml:"host" required:"true"`
-	Port     int    `yaml:"port" default:"5432"`
-	Database string `yaml:"database" required:"true"`
-	User     string `yaml:"user" required:"true"`
-	Pass     string `yaml:"pass" required:"true"`
+	Host     string        `yaml:"host" required:"true"`
+	Port     int           `yaml:"port" default:"5432"`
+	Database string        `yaml:"database" required:"true"`
+	User     string        `yaml:"username" required:"true"`
+	Pass     string        `yaml:"password" required:"true"`
+	Timeout  time.Duration `yaml:"timeout" default:"5"`
 }
 
 type HttpServer struct {
 	Host        string        `yaml:"host" required:"true"`
-	Port        int           `yaml:"port" default:"8080"`
+	Port        string        `yaml:"port" default:"8080"`
 	Timeout     time.Duration `yaml:"timeout" default:"5s"`
 	IdleTimeout time.Duration `yaml:"idle_timeout" default:"30s"`
 }
